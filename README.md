@@ -1,1 +1,1 @@
-# heat-haproxy
+# heat-keepalived
