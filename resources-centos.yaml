@@ -1,0 +1,2 @@
+resource_registry:
+  "Evoila::Deployment::Keepalived": src/deploy-keepalived-centos.yaml

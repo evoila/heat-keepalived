@@ -1,0 +1,3 @@
+resource_registry:
+  "Evoila::Deployment::Keepalived": src/deploy-keepalived-ubuntu.yaml
+  "Evoila::Deployment::Keepalived::VRRPInstance": src/generate-vrrp-instance.yaml
