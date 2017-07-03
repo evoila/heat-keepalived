@@ -58,6 +58,16 @@ resources:
       rules:
         - remote_ip_prefix: 0.0.0.0/0
 
+  vip_port:
+    type: OS::Neutron::Port
+    properties:
+      name: cluster-vip
+      network: { get_attr: [simple_networking1, network] }
+      fixed_ips:
+        - subnet: { get_attr: [simple_networking1, subnet] }
+      security_groups:
+        - { get_resource: security_group }
+
   cluster:
     type: Evoila::IaaS::Cluster::Basic
     properties:
@@ -69,8 +79,10 @@ resources:
       flavor: { get_param: flavor }
       security_groups:
         - { get_resource: security_group }
-      subnets:
-        - { get_attr: [simple_networking1, subnet] }
+      network: { get_attr: [simple_networking1, network] }
+      subnet: { get_attr: [simple_networking1, subnet] }
+      allowed_address_pairs:
+        - ip_address: { get_attr: [ vip_port, fixed_ips, 0, ip_address ] }
       timeout: 500
       extras:
         volume_count: 0
@@ -82,7 +94,7 @@ resources:
       server: { get_attr: [ cluster, ids, 0 ] }
       name: myrouter
       router_id: 51
-      vip: 1.2.3.4
+      vip: { get_attr: [ vip_port, fixed_ips, 0, ip_address ] }
       auth_pass: mypass
 
   keepalived:
