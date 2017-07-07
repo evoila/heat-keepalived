@@ -6,3 +6,5 @@ apt-get install -y keepalived
 
 # Stop service
 service keepalived stop
+
+systemctl enable keepalived
